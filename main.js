@@ -1,8 +1,11 @@
-var auth = "FzaWATKl1iY95JHOy8N69CxuS3Cv80u6Gz4i4AjH";
+//var auth = "FzaWATKl1iY95JHOy8N69CxuS3Cv80u6Gz4i4AjH";
+//var auth = "Up3Aiy2P4maRphMEdUHCc8TQLF4BF7fNiCTFMZJk";
+var auth = "YwdJjw1fPPXySjg4DK7pxexIGwN7eMKsZtydGJXn";
 
 function getImages(pos){
     var lat = pos.coords.latitude;
     var lon = pos.coords.longitude;
+    var timeout = 1000;
     document.getElementById("status").textContent = "Finding image dates...";
     var asset_url = "https://api.nasa.gov/planetary/earth/assets?api_key=" + auth + "&lat=" + lat.toString() + "&lon=" + lon.toString();
     // use jquery for now, since it's easier to type out.
@@ -42,6 +45,7 @@ function getImages(pos){
                            var img = document.createElement("img");
                            img.src=d.url;
                            img.className = "LANDSAT"
+                           img.dataset.date = d.date;
                            document.getElementById("images").appendChild(img);
                            document.getElementById("selector").innerHTML = "<input id=\"ex1\" data-slider-id=\'ex1Slider\' type=\"text\" data-slider-min=\"0\" data-slider-max=\"" + j + "\" data-slider-step=\"1\" data-slider-value=\"0\"/>"
                             $('#ex1').slider({
@@ -50,9 +54,9 @@ function getImages(pos){
                             	}
                             });
                             $("#ex1").on('change',function(event){
-                                console.log(event)
                             	    document.getElementById("images").children[event.value.newValue].style.display = "inherit";
                             	    document.getElementById("images").children[event.value.oldValue].style.display = "none";
+                            	    document.getElementById("date").textContent = document.getElementById("images").children[event.value.newValue].dataset.date;
                             });
                        }
                    })
@@ -61,13 +65,13 @@ function getImages(pos){
                         pbar.className = "progress-bar progress-bar-danger progress-bar-striped";
                     });
                    $('.progress-bar').css('width',j*step.toString() + "%").text((j * step).toString().substr(0,4));
-               },j*1000);
+               },j*timeout);
                }(i));
            }
            setTimeout(function(){
                $('.progress-bar').css('width',(100).toString() + "%").text((100).toString().substr(0,4));
                console.log(images);
-           },data.results.length * 1000);
+           },data.results.length*timeout);
        }
     });
 }

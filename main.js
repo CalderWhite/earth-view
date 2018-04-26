@@ -3,6 +3,7 @@
 var auth = "YwdJjw1fPPXySjg4DK7pxexIGwN7eMKsZtydGJXn";
 
 function getImages(pos){
+    console.log("Gooood morning vietnammmm")
     var lat = pos.coords.latitude;
     var lon = pos.coords.longitude;
     var timeout = 1000;
@@ -29,8 +30,8 @@ function getImages(pos){
                // otherwise it would just use the last value of [i], since the runs technically instantly.
                (function(j){
                setTimeout(function(){
-                   var url = "https://api.nasa.gov/planetary/earth/imagery?api_key=" + auth + "&lat=" + lat + "&lon=" + lon + "&date=" + data.results[j].date.substr(0,10);
-                   $.get(url,function(d){
+                   var url = "https://api.nasa.gov/planetary/earth/imagery/?api_key=" + auth + "&lat=" + lat + "&lon=" + lon + "&date=" + data.results[j].date.substr(0,10);
+                   $.getJSON(url,function(d){
                        if(d.error != undefined){
                         document.getElementById("status").textContent = "Error";
                         pbar.className = "progress-bar progress-bar-danger progress-bar-striped";
